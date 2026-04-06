@@ -1,0 +1,30 @@
+EXPERIMENT NO: 1.6 ACCESSING DATABASES: (VIEWS)
+
+
+1. Create a view for customers who have purchased products.
+mysql> create VIEW AL AS select * from customer where cust_id in(select cust_id from invoice_master);
+Query OK, 0 rows affected (0.03 sec)
+mysql> select *from AL;
++---------+--------+--------------+-------+------------+
+| cust_id | name   | address      | city  | ph_no      |
++---------+--------+--------------+-------+------------+
+|     101 | Sharma | 2A Confident | Goa   | 9778764562 |
+|     110 | Rajiv  | 3C Opera     | Surat | 6789678978 |
+|     121 | Pooja  | 12B Costa    | Surat | 9298764562 |
++---------+--------+--------------+-------+------------+
+3 rows in set (0.00 sec)
+
+
+2. Create a view for invoice products[cust_name, , inv_id, product_id, quantity]
+mysql> create VIEW invoice_product as select customer.name,invoice_master.inv_id,product.pid,invoice_item.quantity from customer INNER JOIN invoice_master on customer.cust_id=invoice_master.cust_id INNER JOIN invoice_item on  invoice_master .inv_id =invoice_item.inv_id INNER JOIN product on product.pid=invoice_item.pid;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select *from invoice_product;
++--------+--------+-----+----------+
+| name   | inv_id | pid | quantity |
++--------+--------+-----+----------+
+| Rajiv  |     21 |  12 |       75 |
+| Sharma |     22 |  13 |      150 |
+| Pooja  |     23 |  14 |       50 |
++--------+--------+-----+----------+
+3 rows in set (0.00 sec)

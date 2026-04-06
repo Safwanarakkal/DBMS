@@ -1,0 +1,82 @@
+EXPERIMENT NO: 1.7 OPTIMIZING DATABASE: (GROUP BY, AGGREGATE FUNCTIONS)
+
+
+mca@MCA9:~$ sudo mysql -u root -p
+[sudo] password for mca: 
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.45-0ubuntu0.24.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use MCA
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+
+1)List product name, price except book on price order.
+mysql> select pname,price from product where pname!='book' order by price;
++--------+-------+
+| pname  | price |
++--------+-------+
+| Eraser |     5 |
+| Pen    |    10 |
++--------+-------+
+2 rows in set (0.01 sec)
+
+
+2)Find minimum, maximum and average price of products.
+mysql> select min(price),max(price),avg(price)from product;
++------------+------------+------------+
+| min(price) | max(price) | avg(price) |
++------------+------------+------------+
+|          5 |         61 |    25.3333 |
++------------+------------+------------+
+1 row in set (0.01 sec)
+
+
+3)Find number of customers in each city.
+mysql> select city,count(cust_id) from customer GROUP BY city;
++-------+----------------+
+| city  | count(cust_id) |
++-------+----------------+
+| Goa   |              1 |
+| Surat |              2 |
+| Delhi |              2 |
+| Agra  |              1 |
++-------+----------------+
+4 rows in set (0.01 sec)
+
+
+4)Find number of customers in each city, only include city with more than 3 customers.
+
+mysql> select count(*),city from customer group by city having count(*)>1;
++----------+-------+
+| count(*) | city  |
++----------+-------+
+|        2 | Surat |
+|        2 | Delhi |
++----------+-------+
+2 rows in set (0.00 sec)
+
+5)Show data as displayed ‘who, where’ Eg: ‘customer1 lives in ekm’.
+mysql> select concat(name," lives in ", city) as cust_info from customer;
++----------------------+
+| cust_info            |
++----------------------+
+| Sharma lives in Goa  |
+| Rajiv lives in Surat |
+| Pooja lives in Surat |
+| Aksa lives in Delhi  |
+| josh lives in Delhi  |
+| Julian lives in Agra |
++----------------------+
+6 rows in set (0.01 sec)

@@ -1,0 +1,55 @@
+EXPERIMENT NO: 1.8 OPTIMIZING DATABASE: (JOINS)
+
+
+1. List the product name and quantity of invoice items.mysql> select product.pname, invoice_item.quantity from product inner join invoice_item on product.pid = invoice_item.pid;
+mysql> select product.pname, invoice_item.quantity from product inner join invoice_item on product.pid = invoice_item.pid;
++--------+----------+
+| pname  | quantity |
++--------+----------+
+| Book   |       75 |
+| Pen    |      150 |
+| Eraser |       50 |
++--------+----------+
+3 rows in set (0.00 sec)
+
+
+2. Display invoice details of the transaction dated ’2004-09-22’.
+mysql> select customer.name,product.pname,product.price,invoice_master.inv_id,invoice_master.inv_date,invoice_item.quantity from customer inner join invoice_master on customer.cust_id=invoice_master.cust_id inner join invoice_item on invoice_master.inv_id=invoice_item.inv_id inner join product on product.pid=invoice_item.pid where inv_date='2004-09-22';
++-------+-------+-------+--------+------------+----------+
+| name  | pname | price | inv_id | inv_date   | quantity |
++-------+-------+-------+--------+------------+----------+
+| Rajiv | Book  |    66 |     21 | 2004-09-22 |       75 |
++-------+-------+-------+--------+------------+----------+
+1 row in set (0.01 sec)
+
+
+3. Display the customer name, product name, invoice date of purchased item ‘pen’.
+mysql> select customer.name,product.pname,invoice_master.inv_date from customer inner join invoice_master on customer.cust_id=invoice_master.cust_id inner join invoice_item on invoice_master.inv_id=invoice_item.inv_id inner join product on product.pid=invoice_item.pid where pname='Pen';
++--------+-------+------------+
+| name   | pname | inv_date   |
++--------+-------+------------+
+| Sharma | Pen   | 2004-04-06 |
++--------+-------+------------+
+1 row in set (0.01 sec)
+
+
+4. Display all customer details and invoice details must include customer has not purchased items.
+mysql>  select customer.name,product.pname,invoice_master.inv_id,invoice_master.inv_date from customer left join invoice_master on customer.cust_id=invoice_master.cust_id left join invoice_item on invoice_master.inv_id= invoice_item.inv_id left join product on product.pid=invoice_item.pid;
++--------+--------+--------+------------+
+| name   | pname  | inv_id | inv_date   |
++--------+--------+--------+------------+
+| Sharma | Pen    |     22 | 2004-04-06 |
+| Rajiv  | Book   |     21 | 2004-09-22 |
+| Pooja  | Eraser |     23 | 2003-12-04 |
+| Aksa   | NULL   |   NULL | NULL       |
+| josh   | NULL   |   NULL | NULL       |
+| Julian | NULL   |   NULL | NULL       |
++--------+--------+--------+------------+
+6 rows in set (0.00 sec)
+
+
+
+
+
+
+

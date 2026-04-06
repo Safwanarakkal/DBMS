@@ -1,0 +1,201 @@
+Experiment No: 1.4 ACCESSING DATABASE: (SELECT, Filtering 
+using WHERE, HAVING, ORDER BY Clauses)
+
+mysql> use MCA;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+Database changed
+
+1.    List all customer details. 
+mysql> select *from customer;
++---------+--------+--------------+-------+------------+
+| cust_id | name   | address      | city  | ph_no      |
++---------+--------+--------------+-------+------------+
+|     101 | Sharma | 2A Confident | Goa   | 9778764562 |
+|     110 | Rajiv  | 3C Opera     | Surat | 6789678978 |
+|     121 | Pooja  | 12B Costa    | Surat | 9298764562 |
++---------+--------+--------------+-------+------------+
+3 rows in set (0.01 sec)
+
+
+2.    List pname, price of all products. 
+mysql> select pname,price from product;
++--------+-------+
+| pname  | price |
++--------+-------+
+| Book   |    61 |
+| Pen    |    10 |
+| Eraser |     5 |
++--------+-------+
+3 rows in set (0.01 sec)
+
+
+3.    List all invoice items, avoid duplicates. 
+mysql> desc invoice_item;
++----------+------+------+-----+---------+-------+
+| Field    | Type | Null | Key | Default | Extra |
++----------+------+------+-----+---------+-------+
+| quantity | int  | YES  |     | NULL    |       |
+| inv_id   | int  | YES  | MUL | NULL    |       |
+| pid      | int  | YES  | MUL | NULL    |       |
++----------+------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> select distinct inv_id from invoice_item;
++--------+
+| inv_id |
++--------+
+|     21 |
+|     22 |
+|     23 |
++--------+
+3 rows in set (0.01 sec)
+
+
+
+4.    List product price between 50rs and 150rs 
+mysql> select * from  product where price between 50 and 150;
++-----+-------+-------+
+| pid | pname | price |
++-----+-------+-------+
+|  12 | Book  |    61 |
++-----+-------+-------+
+1 row in set (0.00 sec)
+
+
+
+5.    List the customer details who lives in ‘Goa’,’Agra’. 
+mysql> select * from customer where city="Goa" or city="Agra";
++---------+--------+--------------+------+------------+
+| cust_id | name   | address      | city | ph_no      |
++---------+--------+--------------+------+------------+
+|     101 | Sharma | 2A Confident | Goa  | 9778764562 |
++---------+--------+--------------+------+------------+
+1 row in set (0.00 sec)
+
+mysql> select *from invoice_master;
++--------+------------+---------+
+| inv_id | inv_date   | cust_id |
++--------+------------+---------+
+|     21 | 2004-09-22 |     110 |
+|     22 | 2004-04-06 |     101 |
+|     23 | 2003-12-04 |     121 |
++--------+------------+---------+
+3 rows in set (0.01 sec)
+
+
+
+6.    List the invoice details from 19th September 2003 to 11th April 2004 
+mysql> select *from invoice_master where inv_date between'2003-09-19' and '2004-04-11';
++--------+------------+---------+
+| inv_id | inv_date   | cust_id |
++--------+------------+---------+
+|     22 | 2004-04-06 |     101 |
+|     23 | 2003-12-04 |     121 |
++--------+------------+---------+
+2 rows in set (0.00 sec)
+
+
+
+7.    List the customer details who not live in ‘Goa’. 
+mysql> select * from customer where city!="Goa";
++---------+-------+-----------+-------+------------+
+| cust_id | name  | address   | city  | ph_no      |
++---------+-------+-----------+-------+------------+
+|     110 | Rajiv | 3C Opera  | Surat | 6789678978 |
+|     121 | Pooja | 12B Costa | Surat | 9298764562 |
++---------+-------+---txt--------+-------+------------+
+2 rows in set (0.00 sec)
+
+
+
+8.    List the customers who have no phone number. 
+mysql> select *from customer where ph_no is null;
+Empty set (0.00 sec)
+
+
+
+9.    Display customer names in descending order. 
+mysql> select *from customer order by name desc;
++---------+--------+--------------+-------+------------+
+| cust_id | name   | address      | city  | ph_no      |
++---------+--------+--------------+-------+------------+
+|     101 | Sharma | 2A Confident | Goa   | 9778764562 |
+|     110 | Rajiv  | 3C Opera     | Surat | 6789678978 |
+|     121 | Pooja  | 12B Costa    | Surat | 9298764562 |
++---------+--------+--------------+-------+------------+
+3 rows in set (0.00 sec)
+
+
+
+10. Display the customer details sorted in ascending by city and descending by names.
+
+mysql> select *from customer ORDER BY city ASC, name DESC;
++---------+--------+--------------+-------+------------+
+| cust_id | name   | address      | city  | ph_no      |
++---------+--------+--------------+-------+------------+
+|     101 | Sharma | 2A Confident | Goa   | 9778764562 |
+|     110 | Rajiv  | 3C Opera     | Surat | 6789678978 |
+|     121 | Pooja  | 12B Costa    | Surat | 9298764562 |
++---------+--------+--------------+-------+------------+
+4 rows in set (0.00 sec)
+
+
+
+11. Find the customer names start with ‘R’. 
+mysql> select name from customer where name like 'R%';
++------+
+| name |
++------+
+| Rajiv |
++------+
+1 row in set (0.00 sec)
+
+
+
+
+12. Find the customer names who have ‘e’ or ‘a’ in them. 
+mysql> select name from customer where name like '%a%' or name like '%e%';
++--------+
+| name   |
++--------+
+| Sharma |
+| Rajiv  |
+| Pooja  |
++--------+
+4 rows in set (0.00 sec)
+
+
+
+13. Find the customer names who have at least 4 characters. 
+mysql> select name from customer where name like '%_____%';
++--------+
+| name   |
++--------+
+| Sharma |
+| Rajiv  |
+| Pooja  |
++--------+
+3 rows in set (0.00 sec)
+
+
+
+14. List the names of customers their names have ‘a’ in second position. 
+mysql> select name from customer where name like '_a%';
++-------+
+| name  |
++-------+
+| Rajiv |
++-------+
+1 row in set (0.00 sec)
+
+
+
+15. Find the customer names start with ‘r’ and are at least 3 characters in length. 
+mysql> select name from customer where name like 'r___%';
++-------+
+| name  |
++-------+
+| Rajiv |
++-------+
+1 row in set (0.00 sec)
