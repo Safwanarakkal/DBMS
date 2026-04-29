@@ -1,0 +1,23 @@
+mysql> delimiter !!
+mysql> create procedure invoice_greatest(a int,b int,c int)
+    -> begin
+    -> if(a>b) and (a>c)then
+    -> select a as 'greatest';
+    -> elseif(b>a) and (b>c)then
+    -> select b as 'greatest';
+    -> else
+    -> select c as 'greatest';
+    -> end if;
+    -> end !!
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> call invoice_greatest(2,4,8) !!
++----------+
+| greatest |
++----------+
+|        8 |
++----------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+

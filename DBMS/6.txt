@@ -1,0 +1,10 @@
+db.createUser({user:"irfana",pwd:"4567",roles:[{role:"read",db:"mca"}]})
+{ ok: 1 }
+
+
+mca> show dbs
+admin   132.00 KiB
+config  108.00 KiB
+local    72.00 KiB
+mca     112.00 KiB
+

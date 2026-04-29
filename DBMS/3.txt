@@ -1,0 +1,52 @@
+mca> db.createCollection("student")
+{ ok: 1 }
+mca> db.student.insert({"name":"anu","address":"lotus lane","age":24})
+DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('69cb9d7671ef24ef2244ba89') }
+}
+mca> db.student.insertMany([{"name":"anu","address":"lotus lane","age":24},{"name":"alfiya","address":"green street","age":27},{"name":"mary","address":"lotus villa","age":29},{"name":"janvy","address":"gandhi street","age":32}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69cb9eb771ef24ef2244ba8a'),
+    '1': ObjectId('69cb9eb771ef24ef2244ba8b'),
+    '2': ObjectId('69cb9eb771ef24ef2244ba8c'),
+    '3': ObjectId('69cb9eb771ef24ef2244ba8d')
+  }
+}
+mca> db.student.find()
+[
+  {
+    _id: ObjectId('69cb9d7671ef24ef2244ba89'),
+    name: 'anu',
+    address: 'lotus lane',
+    age: 24
+  },
+  {
+    _id: ObjectId('69cb9eb771ef24ef2244ba8a'),
+    name: 'anu',
+    address: 'lotus lane',
+    age: 24
+  },
+  {
+    _id: ObjectId('69cb9eb771ef24ef2244ba8b'),
+    name: 'alfiya',
+    address: 'green street',
+    age: 27
+  },
+  {
+    _id: ObjectId('69cb9eb771ef24ef2244ba8c'),
+    name: 'mary',
+    address: 'lotus villa',
+    age: 29
+  },
+  {
+    _id: ObjectId('69cb9eb771ef24ef2244ba8d'),
+    name: 'janvy',
+    address: 'gandhi street',
+    age: 32
+  }
+]
+

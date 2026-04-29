@@ -1,0 +1,27 @@
+mysql> create trigger product_price
+    -> before insert
+    -> on product
+    -> for each row
+    -> begin
+    -> if new.price < 5 then
+    -> set new.price=10;
+    -> end if;
+    -> end //
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into product values(17,'book',4);
+    -> //
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from product; //
++-----+--------+-------+
+| pid | pname  | price |
++-----+--------+-------+
+|  17 | book   |    10 |
+|  21 | pen    |   107 |
+|  22 | pencil |   311 |
+|  23 | book   |   163 |
++-----+--------+-------+
+4 rows in set (0.00 sec)
+
+
